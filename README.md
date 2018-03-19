@@ -1,5 +1,5 @@
 # sabisu
-A Clojure micro-service utility library
+A Clojure micro-service options configuration library
 
 ## Artifact
 
