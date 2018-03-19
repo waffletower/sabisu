@@ -32,7 +32,7 @@
 
 (defmacro system-options
   "'system-options' is an initialization macro which generates specs for the options of a component system.
-    it requires the following arguments:
+  it requires the following arguments:
   'system-name' a string or symbol used to create symbols for products of the macro (see below)
   'coll' a collection of three value collections [unqualified-key validation-function default-value]
   system-options will create the following:
