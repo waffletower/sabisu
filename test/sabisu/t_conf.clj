@@ -47,7 +47,7 @@
     (fact "lack of environment does not modify result"
       (:dunes (merge-options spec (assoc ds :dunes 4242) {})) => 4242)))
 
-(fact "system-options"
+(facts "system-options"
   (macroexpand
    '(system-options
      dante
@@ -59,8 +59,24 @@
         (def dante-spec
           (clojure.spec.alpha/spec
            (clojure.spec.alpha/keys :req-un [:sabisu.t-conf/worker :sabisu.t-conf/tool])))
+        (def dante-defaults (clojure.core/hash-map :worker "Ralph" :tool "Hose"))
         (clojure.core/defn
           dante-options
           []
           (sabisu.conf/create-options dante-spec dante-defaults))
-        (def dante-defaults (clojure.core/hash-map :worker "Ralph" :tool "Hose"))))
+        nil)
+
+  (system-options
+   dante
+   [[:worker string? "Ralph"]
+    [:tool string? "Hose"
+     :count int? 11]]) => nil
+  (:worker dante-defaults) => "Ralph"
+  (:tool dante-defaults) => "Hose"
+  (dante-options) => {:worker "Ralph"
+                      :tool "bag-of-tricks"
+                      :count 12}
+  (provided
+   (get-env) => {:tool "bag-of-tricks"
+                 :count "12"})
+  (:name (meta #'dante-options)) => 'dante-options)

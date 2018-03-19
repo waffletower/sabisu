@@ -27,8 +27,12 @@
        "merged options do not adhere to options-spec: %s"
        (s/explain-str options-spec mo)))))
 
+;; mockable environment accessor
+(defn get-env []
+  env)
+
 (defn create-options [options-spec defaults]
-  (merge-options options-spec defaults env))
+  (merge-options options-spec defaults (get-env)))
 
 (defmacro system-options
   "'system-options' is an initialization macro which generates specs for the options of a component system.
@@ -56,5 +60,6 @@
     `(do
        ~@option-specs
        (def ~ss (s/spec (s/keys :req-un [~@option-keys])))
+       (def ~ds (hash-map ~@(flatten defaults)))
        (defn ~fs [] (create-options ~ss ~ds))
-       (def ~ds (hash-map ~@(flatten defaults))))))
+       nil)))
