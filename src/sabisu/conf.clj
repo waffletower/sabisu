@@ -27,7 +27,7 @@
        "merged options do not adhere to options-spec: %s"
        (s/explain-str options-spec mo)))))
 
-(defn- create-options [options-spec defaults]
+(defn create-options [options-spec defaults]
   (merge-options options-spec defaults env))
 
 (defmacro system-options
