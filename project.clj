@@ -7,7 +7,7 @@
                  [org.clojure/spec.alpha "0.1.143"]
                  [environ "1.1.0"]
                  [com.taoensso/timbre "4.10.0"]
-                 [waffletower/serum "0.3.0-SNAPSHOT"]]
+                 [waffletower/serum "0.3.0"]]
   :deploy-repositories [["clojars-https" {:url "https://clojars.org/repo"
                                           :username :env/clojars_user
                                           :password :env/clojars_password}]]
