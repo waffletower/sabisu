@@ -60,6 +60,6 @@
     `(do
        ~@option-specs
        (def ~ss (s/spec (s/keys :req-un [~@option-keys])))
-       (def ~ds (hash-map ~@(flatten defaults)))
+       (def ~ds (hash-map ~@(mapcat identity defaults)))
        (defn ~fs [] (create-options ~ss ~ds))
        nil)))

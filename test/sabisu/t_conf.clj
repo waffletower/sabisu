@@ -16,13 +16,15 @@
               :lairs [{:where "dungeon"
                        :hobgoblins "11"}
                       {:where "underground"
-                       :murlocs "17"}]}) => {:url "https://mymmo.com"
-                                             :type :sandbox
-                                             :mobs 645
-                                             :lairs [{:where "dungeon"
-                                                      :hobgoblins 11}
-                                                     {:where "underground"
-                                                      :murlocs 17}]})
+                       :murlocs "17"}]
+              :sartre []}) => {:url "https://mymmo.com"
+                               :type :sandbox
+                               :mobs 645
+                               :lairs [{:where "dungeon"
+                                        :hobgoblins 11}
+                                       {:where "underground"
+                                        :murlocs 17}]
+                               :sartre []})
 
 (s/def ::dunes integer?)
 (s/def ::bunnies integer?)
@@ -52,14 +54,20 @@
    '(system-options
      dante
      [[:worker string? "Ralph"]
-      [:tool string? "Hose"]]))
+      [:tool string? "Hose"]
+      [:shed coll? ["Maul"]]
+      [:box coll? []]]))
   => '(do
         (clojure.spec.alpha/def :sabisu.t-conf/worker string?)
         (clojure.spec.alpha/def :sabisu.t-conf/tool string?)
+        (clojure.spec.alpha/def :sabisu.t-conf/shed coll?)
+        (clojure.spec.alpha/def :sabisu.t-conf/box coll?)
         (def dante-spec
           (clojure.spec.alpha/spec
-           (clojure.spec.alpha/keys :req-un [:sabisu.t-conf/worker :sabisu.t-conf/tool])))
-        (def dante-defaults (clojure.core/hash-map :worker "Ralph" :tool "Hose"))
+           (clojure.spec.alpha/keys
+            :req-un
+            [:sabisu.t-conf/worker :sabisu.t-conf/tool :sabisu.t-conf/shed :sabisu.t-conf/box])))
+        (def dante-defaults (clojure.core/hash-map :worker "Ralph" :tool "Hose" :shed ["Maul"] :box []))
         (clojure.core/defn
           dante-options
           []
