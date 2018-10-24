@@ -17,7 +17,7 @@ The conf namespace contains a macro, `(system-options)` and several helper funct
      bargain-service
      [[:database-connection-string string? "only-the-best-in-security"]
       [:database-host-name string? "demure.bargains.com"]
-      [:database-port int? 1998]
+      [:database-port int? 1998]])
 ```
 
 The `(system-options)` macro creates validation specs for all options and an accessor function (in this case named `(bargain-service-options)`) which can be used at run-time to merge environment variables with the declared default options, and validate the result.
