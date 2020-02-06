@@ -4,7 +4,7 @@ A Clojure micro-service options configuration library
 ## Artifact
 
 via Clojars:
-`[waffletower/sabisu "0.1.0"]`
+`[waffletower/sabisu "0.1.1"]`
 
 ## Usage
 
