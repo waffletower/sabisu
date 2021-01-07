@@ -4,7 +4,7 @@ A Clojure micro-service options configuration library
 ## Artifact
 
 via Clojars:
-`[waffletower/sabisu "0.1.1"]`
+`[waffletower/sabisu "0.2.0"]`
 
 ## Usage
 
@@ -21,6 +21,11 @@ The conf namespace contains a macro, `(system-options)` and several helper funct
 ```
 
 The `(system-options)` macro creates validation specs for all options and an accessor function (in this case named `(bargain-service-options)`) which can be used at run-time to merge environment variables with the declared default options, and validate the result.
+
+## Future
+
+sabisu "1.0.0"+ will utilize `clojure.spec.alpha2` specs as its validation mechanism, if/when `clojure.spec.alpha2` becomes publically available as a maven artifact.
+
 
 ## Tests
 

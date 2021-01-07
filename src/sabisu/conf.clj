@@ -2,7 +2,7 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.edn :as edn]
             [environ.core :refer [env]]
-            [taoensso.timbre :as log]
+            [clojure.tools.logging :as log]
             [serum.core :refer [attempt]]
             [serum.data :refer [proc-vals rotate]]))
 
