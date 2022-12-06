@@ -2,7 +2,8 @@
   (:require [clojure.spec.alpha :as s]
             [clojure.edn :as edn]
             [environ.core :refer [env]]
-            [clojure.tools.logging :as log]
+            [clojure.tools.logging :as ctl]
+            [taoensso.timbre :as timbre]
             [serum.core :refer [attempt]]
             [serum.data :refer [proc-vals rotate]]))
 
@@ -19,20 +20,23 @@
 (defn read-vals [m]
   (proc-vals read-string-not-symbols m))
 
-(defn merge-options [options-spec defaults input-options]
+(defn merge-options [options-spec defaults input-options {:keys [logging]}]
   (let [mo (merge defaults (read-vals input-options))]
     (if (s/valid? options-spec mo)
       mo
-      (log/errorf
-       "merged options do not adhere to options-spec: %s"
-       (s/explain-str options-spec mo)))))
+      (let [msg (format
+                  "merged options do not adhere to options-spec: %s"
+                  (s/explain-str options-spec mo))]
+        (case logging
+          :timbre (timbre/error msg)
+          (ctl/error msg))))))
 
 ;; mockable environment accessor
 (defn get-env []
   env)
 
-(defn create-options [options-spec defaults]
-  (merge-options options-spec defaults (get-env)))
+(defn create-options [options-spec defaults config-map]
+  (merge-options options-spec defaults (get-env) config-map))
 
 (defmacro system-options
   "'system-options' is an initialization macro which generates specs for the options of a component system.
@@ -45,21 +49,21 @@
   a hashmap spec containing all options '{system-name}-spec',
   and a merged options map function '{system-name}-options' which is used to obtain system options
   resulting from the merge of defaults and environment variables"
-  [system-name coll]
+  [system-name coll config-map]
   (let [ss (symbol (format "%s-spec" system-name))
         ds (symbol (format "%s-defaults" system-name))
         fs (symbol (format "%s-options" system-name))
         [option-keys defaults option-specs]
         (rotate
-         (map
-          (fn [[option-sym valid-fn default]]
-            (let [unqualified (keyword (name option-sym))
-                  qualified (keyword (str *ns*) (name option-sym))]
-              [qualified [unqualified default] `(s/def ~qualified ~valid-fn)]))
-          coll))]
+          (map
+            (fn [[option-sym valid-fn default]]
+              (let [unqualified (keyword (name option-sym))
+                    qualified (keyword (str *ns*) (name option-sym))]
+                [qualified [unqualified default] `(s/def ~qualified ~valid-fn)]))
+            coll))]
     `(do
        ~@option-specs
        (def ~ss (s/spec (s/keys :req-un [~@option-keys])))
        (def ~ds (hash-map ~@(mapcat identity defaults)))
-       (defn ~fs [] (create-options ~ss ~ds))
+       (defn ~fs [] (create-options ~ss ~ds ~config-map))
        nil)))

@@ -37,17 +37,17 @@
           :raisinets 5000}]
   (facts "merge-options"
     (fact "reject non-integers for integer values"
-      (merge-options spec ds {:dunes "boullion-cube"}) => nil
-      (merge-options spec ds {:bunnies "barnacle"}) => nil
-      (merge-options spec ds {:raisinets "bionic"}) => nil)
+      (merge-options spec ds {:dunes "boullion-cube"} {}) => nil
+      (merge-options spec ds {:bunnies "barnacle"} {}) => nil
+      (merge-options spec ds {:raisinets "bionic"} {}) => nil)
 
     (fact "map precedence left to right as in merge"
-      (:dunes (merge-options spec ds {:dunes "4242"})) => 4242
-      (:bunnies (merge-options spec ds {:bunnies "1000"})) => 1000
-      (:raisinets (merge-options spec ds {:raisinets "2000"})) => 2000)
+      (:dunes (merge-options spec ds {:dunes "4242"} {})) => 4242
+      (:bunnies (merge-options spec ds {:bunnies "1000"} {})) => 1000
+      (:raisinets (merge-options spec ds {:raisinets "2000"} {})) => 2000)
 
     (fact "lack of environment does not modify result"
-      (:dunes (merge-options spec (assoc ds :dunes 4242) {})) => 4242)))
+      (:dunes (merge-options spec (assoc ds :dunes 4242) {} {})) => 4242)))
 
 (facts "system-options"
   (macroexpand
@@ -56,7 +56,8 @@
      [[:worker string? "Ralph"]
       [:tool string? "Hose"]
       [:shed coll? ["Maul"]]
-      [:box coll? []]]))
+      [:box coll? []]]
+     {}))
   => '(do
         (clojure.spec.alpha/def :sabisu.t-conf/worker string?)
         (clojure.spec.alpha/def :sabisu.t-conf/tool string?)
@@ -71,14 +72,15 @@
         (clojure.core/defn
           dante-options
           []
-          (sabisu.conf/create-options dante-spec dante-defaults))
+          (sabisu.conf/create-options dante-spec dante-defaults {}))
         nil)
 
   (system-options
    dante
    [[:worker string? "Ralph"]
     [:tool string? "Hose"
-     :count int? 11]]) => nil
+     :count int? 11]]
+   {}) => nil
   (:worker dante-defaults) => "Ralph"
   (:tool dante-defaults) => "Hose"
   (dante-options) => {:worker "Ralph"
