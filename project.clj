@@ -1,4 +1,4 @@
-(defproject waffletower/sabisu "1.0.0"
+(defproject waffletower/sabisu "1.1.0"
   :description "micro-service configuration library"
   :url "https://github.com/waffletower/sabisu"
   :license {:name "Eclipse Public License"

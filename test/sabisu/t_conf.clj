@@ -63,6 +63,10 @@
         (clojure.spec.alpha/def :sabisu.t-conf/tool string?)
         (clojure.spec.alpha/def :sabisu.t-conf/shed coll?)
         (clojure.spec.alpha/def :sabisu.t-conf/box coll?)
+        (clojure.core/declare dante)
+        (clojure.core/declare dante-spec)
+        (clojure.core/declare dante-defaults)
+        (clojure.core/declare dante-options)
         (def dante-spec
           (clojure.spec.alpha/spec
            (clojure.spec.alpha/keys

@@ -50,7 +50,8 @@
   and a merged options map function '{system-name}-options' which is used to obtain system options
   resulting from the merge of defaults and environment variables"
   [system-name coll config-map]
-  (let [ss (symbol (format "%s-spec" system-name))
+  (let [sn (symbol system-name)
+        ss (symbol (format "%s-spec" system-name))
         ds (symbol (format "%s-defaults" system-name))
         fs (symbol (format "%s-options" system-name))
         [option-keys defaults option-specs]
@@ -63,6 +64,10 @@
             coll))]
     `(do
        ~@option-specs
+       (declare ~sn)
+       (declare ~ss)
+       (declare ~ds)
+       (declare ~fs)
        (def ~ss (s/spec (s/keys :req-un [~@option-keys])))
        (def ~ds (hash-map ~@(mapcat identity defaults)))
        (defn ~fs [] (create-options ~ss ~ds ~config-map))
