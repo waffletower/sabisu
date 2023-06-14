@@ -4,7 +4,7 @@ A Clojure micro-service options configuration library
 ## Artifact
 
 via Clojars:
-`[waffletower/sabisu "1.0.0"]`
+`[waffletower/sabisu "1.1.0"]`
 
 ## Usage
 
@@ -25,7 +25,7 @@ The `(system-options)` macro creates validation specs for all options and an acc
 
 ## Future
 
-sabisu "2.0.0"+ will utilize `clojure.spec.alpha2` specs as its validation mechanism, if/when `clojure.spec.alpha2` becomes publically available as a maven artifact.
+sabisu "2.0.0"+ will utilize either [Malli](https://github.com/metosin/malli) or [clojure.spec.alpha2](https://github.com/clojure/spec-alpha2) specs as its validation mechanism.
 
 
 ## Tests
@@ -34,7 +34,7 @@ sabisu "2.0.0"+ will utilize `clojure.spec.alpha2` specs as its validation mecha
 
 ## License
 
-Copyright © 2018-2022 Christopher Penrose
+Copyright © 2018-2023 Christopher Penrose
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
